@@ -1,7 +1,7 @@
 name:  ScrollSide
 author:  davidwalsh
-current:  
-category:  
-tags:  []
-docs:  
-demo:  
+current:  0.1
+category:  Interface
+tags:  [events,scroll]
+docs:  http://davidwalsh.name/js/scrollside
+demo:  http://davidwalsh.name/dw-content/scrollside.php
