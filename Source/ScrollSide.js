@@ -33,7 +33,7 @@ var ScrollSide = new Class({
 	initialize: function(container,options) {
 		/* set options */
 		this.setOptions(options);
-		this.container = $(container);
+		this.container = document.id(container);
 		if(this.options.reset) { this.container.scrollTo(0,0); }
 		this.containerWidth = this.container.getScrollSize().x;
 		this.position = this.container.getScroll().x;
@@ -44,23 +44,24 @@ var ScrollSide = new Class({
 	/* listen for scrolling */
 	addListeners: function() {
 		/* scroll reset */
-		var scrollContainer = (this.container == $(document.body) ? window : this.container);
+		var scrollContainer = (this.container == document.id(document.body) ? window : this.container);
 		scrollContainer.addEvent('scroll',function() {
 			this.position = this.container.getScroll().x;
 		}.bind(this));
 		/* mousewheeling */
-		this.container.addEvent('mousewheel',function(event) {
-			event.stop();
+		this.container.addEvent('mousewheel',function(e) {
+			if(e) { e.stop(); }
+			var pos;
 			/* scroll down/right */
-			if(event.wheel < 0) {
-				this.fireEvent('onScrollUp',[event]);
-				var pos = this.position + this.options.movement;
+			if(e.wheel < 0) {
+				this.fireEvent('scrollUp',[e]);
+				pos = this.position + this.options.movement;
 				this.position = (pos <= this.containerWidth ? pos : this.containerWidth);
 			}
 			/* scroll up/left */
 			else{
-				this.fireEvent('onScrollDown',[event]);
-				var pos = this.position - this.options.movement;
+				this.fireEvent('scrollDown',[e]);
+				pos = this.position - this.options.movement;
 				this.position = (pos > 0 ? pos : 0);
 			}
 			this.container.scrollTo(this.position,0);
